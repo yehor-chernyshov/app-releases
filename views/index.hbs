@@ -1,2 +1,23 @@
 <h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<table>
+    <thead>
+        <tr>
+            <th>name</th>
+            <th>branch</th>
+            <th>tag</th>
+            <th>commit hash</th>
+            <th>date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each releases}}
+            <tr>
+                <td>{{ this.projectName }}</td>
+                <td>{{ this.branch }}</td>
+                <td>{{ this.tag }}</td>
+                <td>{{ this.commitHash }}</td>
+                <td>{{ this.date}}</td>
+            </tr>
+        {{/each}}
+    </tbody>
+</table>
