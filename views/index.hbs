@@ -3,6 +3,7 @@
     <thead>
         <tr>
             <th>name</th>
+            <th>environment</th>
             <th>branch</th>
             <th>tag</th>
             <th>commit hash</th>
@@ -10,9 +11,10 @@
         </tr>
     </thead>
     <tbody>
-        {{#each releases}}
+        {{#each deployments}}
             <tr>
                 <td>{{ this.projectName }}</td>
+                <td>{{ this.env }}</td>
                 <td>{{ this.branch }}</td>
                 <td>{{ this.tag }}</td>
                 <td>{{ this.commitHash }}</td>
