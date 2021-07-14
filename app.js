@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mongoose = require('mongoose');
+const SlackWebhook = require('./webhooks/slack')
 
 mongoose.connect(process.env.MONGO_DB_CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
 
@@ -29,9 +30,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+const webhooks = [
+    new SlackWebhook(process.env.SLACK_URL)
+];
 
 app.use('/', indexRouter);
-app.use('/api/deployments', deploymentsRouter);
+app.use('/api/deployments', deploymentsRouter(process.env.API_TOKEN, webhooks));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
