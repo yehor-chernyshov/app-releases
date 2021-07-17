@@ -8,7 +8,7 @@ RUN npm ci --only=production
 
 COPY . .
 
-CMD [ "node", "index.js" ]
+CMD [ "node", "main.js" ]
 
 # At the end, set the user to use when running this image
 USER node
