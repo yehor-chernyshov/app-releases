@@ -19,7 +19,7 @@ class SlackWebhook {
         }
 
         return {
-            "text": `Project ${deployment.projectName} deployed`,
+            "text": `${deployment.projectName}:${deployment.env} deployed`,
             "blocks": [{
                     "type": "header",
                     "text": {

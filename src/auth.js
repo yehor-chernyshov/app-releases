@@ -8,7 +8,7 @@ class Auth {
     }
 
     _isValidToken(token, tokens) {
-        return token == null || tokens.includes(token)
+        return token != null && tokens.includes(token)
     }
 
     apiWriteTokenAuthenticate() {
