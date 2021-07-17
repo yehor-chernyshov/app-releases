@@ -23,32 +23,25 @@ const wrapper = function(auth, webhooks = []) {
     });
 
     router.post('/', auth.apiWriteTokenAuthenticate(), async function(req, res, next) {
-        const newDeploment = new Deployment({
-            projectName: req.body.projectName,
-            tag: req.body.tag,
-            commitHash: req.body.commitHash,
-            branch: req.body.branch,
-            env: req.body.env
-        });
-        newDeploment.save(function(error, document) {
-            if (error) {
-                res.status(400).json(error);
-            }
-            webhooks.forEach(webhook => webhook.send(document));
-            res.json(document);
-        })
+        new Deployment(req.body)
+            .save(function(error, document) {
+                if (error) {
+                    res.status(400).json(error);
+                }
+                webhooks.forEach(webhook => webhook.send(document));
+                res.json(document);
+            })
     });
 
     router.post('/heroku', auth.apiWriteTokenAuthenticate(), async function(req, res, next) {
         if (req.body.data.status === "succeeded" &&
             req.body.action == "create" &&
             req.body.resource == "release") {
-            const newDeploment = new Deployment({
+            new Deployment({
                 projectName: req.body.data.app.name,
                 commitHash: req.body.data.slug.commit,
                 env: req.query.env
-            });
-            newDeploment.save(function(error, document) {
+            }).save(function(error, document) {
                 if (error) {
                     res.status(400).json(error);
                 }
