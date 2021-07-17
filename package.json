@@ -1,11 +1,14 @@
 {
     "name": "releases",
-    "version": "0.0.0",
-    "private": true,
+    "version": "0.1.0",
     "scripts": {
         "start": "node -r dotenv/config ./bin/www",
         "dev": "nodemon -r dotenv/config ./bin/www"
     },
+    "engines": {
+        "node": "14.x"
+    },
+    "license": "MIT",
     "dependencies": {
         "axios": "^0.21.1",
         "debug": "~2.6.9",
