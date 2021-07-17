@@ -21,72 +21,18 @@ const columns = [{
     {
         key: 'date',
         name: 'deployment date',
-        transform: dateTransform
+        transform: string => new Date(string).toUTCString()
     },
 ];
 
 function showContent(data) {
     document.getElementById('login-block')
         .remove();
-    const content = document.getElementById('content');
-    content
-        .appendChild(generateHeading('Deployments'));
-    content
-        .appendChild(generateTable(columns, data));
-}
+    document.querySelectorAll('.row')
+        .forEach(item => item.classList.remove('hidden'));
 
-function dateTransform(string) {
-    return new Date(string).toUTCString();
-}
-
-function generateHeading(text) {
-    const h1 = document.createElement("h1");
-    h1.innerText = text;
-
-    return h1;
-}
-
-function generateTable(columns, data) {
-    const tbl = document.createElement("table");
-    tbl.appendChild(generateTableHead(columns));
-    tbl.appendChild(generateTableBody(columns, data));
-
-    return tbl;
-}
-
-function generateTableBody(columns, data) {
-    const tblBody = document.createElement("tbody");
-    data.forEach(deployment => {
-        const row = document.createElement("tr");
-        columns.forEach(column => {
-            const cell = document.createElement("td");
-            if (deployment[column.key]) {
-                let cellText = deployment[column.key];
-                if (column.transform) {
-                    cellText = column.transform(cellText)
-                }
-                cell.appendChild(document.createTextNode(cellText));
-            }
-            row.appendChild(cell);
-        })
-        tblBody.appendChild(row);
-    })
-
-    return tblBody;
-}
-
-function generateTableHead(columns) {
-    const tblHead = document.createElement("thead");
-    const row = document.createElement("tr");
-    columns.forEach(column => {
-        const cell = document.createElement("th");
-        const cellText = document.createTextNode(column.name);
-        cell.appendChild(cellText);
-        row.appendChild(cell);
-    })
-    tblHead.appendChild(row);
-
-    return tblHead;
+    generateTable('deployments-table', columns, data);
+    tableSearch.init();
 }
 
 function showListAction(event) {

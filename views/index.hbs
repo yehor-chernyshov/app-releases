@@ -2,12 +2,25 @@
     <div class="column">
         <div class="error" id="error"></div>
         <form name="login">
-            <input type="text" name="token" required autofocus autocomplete="on" minlength="8">
-            <input type="submit" value="Show">
+            <input type="text" name="token" placeholder="token" required autofocus autocomplete="on" minlength="8">
+            <input type="submit" value="show">
         </form> 
     </div>
 </div>
 
-<div class="row">
-    <div id="content" class="column"></div>
+
+<div class="row hidden">
+    <div class="column">
+        <h1>Deployments</h1>
+    </div>
+</div>
+<div class="row hidden">
+    <div class="column">
+        <input type="text" class="table-search" data-table="searchable" placeholder="Item to search.." />    
+    </div>
+</div>
+<div class="row hidden">
+    <div class="column">
+        <table id="deployments-table" class="searchable sortable"></table>
+    </div>
 </div>

@@ -9,5 +9,9 @@ form {
 }
 
 tr:hover {
-    background-color: rgb(220, 220, 220);
+    background-color: rgb(240, 240, 240);
+}
+
+.hidden {
+    display: none;
 }

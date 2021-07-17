@@ -23,7 +23,7 @@ const wrapper = function(auth, webhooks = []) {
     });
 
     router.post('/', auth.apiWriteTokenAuthenticate(), async function(req, res, next) {
-        new Deployment(req.body)
+        new Deployment({...req.query, ...req.body })
             .save(function(error, document) {
                 if (error) {
                     res.status(400).json(error);
@@ -37,11 +37,10 @@ const wrapper = function(auth, webhooks = []) {
         if (req.body.data.status === "succeeded" &&
             req.body.action == "create" &&
             req.body.resource == "release") {
-            new Deployment({
-                projectName: req.body.data.app.name,
-                commitHash: req.body.data.slug.commit,
-                env: req.query.env
-            }).save(function(error, document) {
+            const deployment = req.query;
+            deployment.projectName = req.body.data.app.name;
+            deployment.commitHash = req.body.data.slug.commit;
+            new Deployment(deployment).save(function(error, document) {
                 if (error) {
                     res.status(400).json(error);
                 }
