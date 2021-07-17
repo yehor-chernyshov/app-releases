@@ -1,5 +1,8 @@
 class Auth {
     constructor(writeTokens, readTokens) {
+        if (writeTokens.length == 0 || readTokens.length == 0) {
+            throw new Error('Auth tokens are not defined.');
+        }
         this.writeTokens = writeTokens
         this.readTokens = readTokens
     }

@@ -14,9 +14,7 @@ db.on('error', err => {
     console.error('connection error', err)
 })
 
-const writeTokens = [process.env.API_TOKEN]
-const readTokens = [process.env.API_TOKEN]
-const auth = new Auth(writeTokens, readTokens)
+const auth = new Auth(process.env.API_WRITE_TOKENS.split(","), process.env.API_READ_TOKENS.split(","))
 
 const indexRouter = require('./routes/index');
 const deploymentsRouter = require('./routes/deployments');
