@@ -40,7 +40,9 @@ const wrapper = function(apiWriteTokenAuthenticate, apiReadTokenAuthenticate, we
     });
 
     router.post('/heroku', apiWriteTokenAuthenticate, async function(req, res, next) {
-        if (req.body.data.status === "succeeded") {
+        if (req.body.data.status === "succeeded" &&
+            req.body.action == "create" &&
+            req.body.resource == "release") {
             const newDeploment = new Deployment({
                 projectName: req.body.data.app.name,
                 commitHash: req.body.data.slug.commit,
