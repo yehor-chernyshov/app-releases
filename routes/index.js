@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Deployment = require('../models/deployment');
+const Deployment = require('../models/Deployment');
 
 /* GET home page. */
 router.get('/', async function(req, res, next) {

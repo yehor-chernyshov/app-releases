@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  nodejs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - target: 3000
+        published: 80
+        protocol: tcp
