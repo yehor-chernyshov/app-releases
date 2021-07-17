@@ -32,11 +32,29 @@ const wrapper = function(apiWriteTokenAuthenticate, apiReadTokenAuthenticate, we
         });
         newDeploment.save(function(error, document) {
             if (error) {
-                res.json(error);
+                res.status(400).json(error);
             }
             webhooks.forEach(webhook => webhook.send(document));
             res.json(document);
         })
+    });
+
+    router.post('/heroku', apiWriteTokenAuthenticate, async function(req, res, next) {
+        if (req.body.data.status === "succeeded") {
+            const newDeploment = new Deployment({
+                projectName: req.body.data.app.name,
+                commitHash: req.body.data.slug.commit,
+                env: req.query.env
+            });
+            newDeploment.save(function(error, document) {
+                if (error) {
+                    res.json(error);
+                }
+                webhooks.forEach(webhook => webhook.send(document));
+                res.json(document);
+            })
+        }
+
     });
 
     return router;
