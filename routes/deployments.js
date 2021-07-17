@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Deployment = require('../models/Deployment');
+const Deployment = require('../models/deployment');
 
 
 // Create wrapper function that will adjust router based on provided configuration
