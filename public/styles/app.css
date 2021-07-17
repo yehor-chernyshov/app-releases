@@ -1,0 +1,9 @@
+form {
+    display: flex;
+    flex-direction: row;
+    margin-top: 300px;
+}
+
+.error {
+    color: red;
+}
