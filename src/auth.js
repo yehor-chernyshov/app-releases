@@ -32,4 +32,4 @@ class Auth {
     }
 }
 
-module.exports = Auth;
+module.exports = new Auth(process.env.API_WRITE_TOKENS.split(","), process.env.API_READ_TOKENS.split(","));

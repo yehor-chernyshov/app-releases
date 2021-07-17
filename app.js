@@ -4,8 +4,8 @@ const express = require('express');
 const path = require('path');
 const logger = require('morgan');
 const mongoose = require('mongoose');
-const SlackWebhook = require('./webhooks/slack')
-const Auth = require('./auth')
+const webhooks = require('./src/webhooks/index')
+const auth = require('./src/auth')
 const helmet = require('helmet')
 
 mongoose.connect(process.env.MONGO_DB_CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -14,8 +14,6 @@ const db = mongoose.connection
 db.on('error', err => {
     console.error('connection error', err)
 })
-
-const auth = new Auth(process.env.API_WRITE_TOKENS.split(","), process.env.API_READ_TOKENS.split(","))
 
 const indexRouter = require('./routes/index');
 const deploymentsRouter = require('./routes/deployments');
@@ -32,12 +30,9 @@ app.use(logger('combined', {
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
-const webhooks = [
-    new SlackWebhook(process.env.SLACK_URL)
-];
 
 app.use('/', indexRouter);
-app.use('/api/deployments', deploymentsRouter(auth.apiWriteTokenAuthenticate(), auth.apiReadTokenAuthenticate(), webhooks));
+app.use('/api/deployments', deploymentsRouter(auth, webhooks));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

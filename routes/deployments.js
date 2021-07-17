@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const Deployment = require('../models/Deployment');
+const Deployment = require('../src/models/Deployment');
 
 
 // Create wrapper function that will adjust router based on provided configuration
-const wrapper = function(apiWriteTokenAuthenticate, apiReadTokenAuthenticate, webhooks = []) {
+const wrapper = function(auth, webhooks = []) {
 
-    router.get('/', apiReadTokenAuthenticate, async function(req, res, next) {
+    router.get('/', auth.apiReadTokenAuthenticate(), async function(req, res, next) {
         const deployments = await Deployment.aggregate([{
             $group: {
                 _id: "$projectName",
@@ -22,7 +22,7 @@ const wrapper = function(apiWriteTokenAuthenticate, apiReadTokenAuthenticate, we
         res.json(deployments);
     });
 
-    router.post('/', apiWriteTokenAuthenticate, async function(req, res, next) {
+    router.post('/', auth.apiWriteTokenAuthenticate(), async function(req, res, next) {
         const newDeploment = new Deployment({
             projectName: req.body.projectName,
             tag: req.body.tag,
@@ -39,7 +39,7 @@ const wrapper = function(apiWriteTokenAuthenticate, apiReadTokenAuthenticate, we
         })
     });
 
-    router.post('/heroku', apiWriteTokenAuthenticate, async function(req, res, next) {
+    router.post('/heroku', auth.apiWriteTokenAuthenticate(), async function(req, res, next) {
         if (req.body.data.status === "succeeded" &&
             req.body.action == "create" &&
             req.body.resource == "release") {
@@ -50,13 +50,13 @@ const wrapper = function(apiWriteTokenAuthenticate, apiReadTokenAuthenticate, we
             });
             newDeploment.save(function(error, document) {
                 if (error) {
-                    res.json(error);
+                    res.status(400).json(error);
                 }
                 webhooks.forEach(webhook => webhook.send(document));
                 res.json(document);
             })
         }
-
+        res.status(400);
     });
 
     return router;
