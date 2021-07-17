@@ -1,25 +1,13 @@
-<h1>{{title}}</h1>
-<table>
-    <thead>
-        <tr>
-            <th>project</th>
-            <th>environment</th>
-            <th>branch</th>
-            <th>tag</th>
-            <th>commit hash</th>
-            <th>deployment date</th>
-        </tr>
-    </thead>
-    <tbody>
-        {{#each deployments}}
-            <tr>
-                <td>{{ this.projectName }}</td>
-                <td>{{ this.env }}</td>
-                <td>{{ this.branch }}</td>
-                <td>{{ this.tag }}</td>
-                <td>{{ this.commitHash }}</td>
-                <td>{{ this.date}}</td>
-            </tr>
-        {{/each}}
-    </tbody>
-</table>
+<div id="login-block" class="row">
+    <div class="column">
+        <div class="error" id="error"></div>
+        <form name="login">
+            <input type="text" name="token" required autofocus autocomplete="on" minlength="8">
+            <input type="submit" value="Submit">
+        </form> 
+    </div>
+</div>
+
+<div class="row">
+    <div id="content" class="column"></div>
+</div>

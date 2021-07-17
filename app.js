@@ -4,6 +4,7 @@ const path = require('path');
 const logger = require('morgan');
 const mongoose = require('mongoose');
 const SlackWebhook = require('./webhooks/slack')
+const Auth = require('./auth')
 const helmet = require('helmet')
 
 mongoose.connect(process.env.MONGO_DB_CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -13,6 +14,9 @@ db.on('error', err => {
     console.error('connection error', err)
 })
 
+const writeTokens = [process.env.API_TOKEN]
+const readTokens = [process.env.API_TOKEN]
+const auth = new Auth(writeTokens, readTokens)
 
 const indexRouter = require('./routes/index');
 const deploymentsRouter = require('./routes/deployments');
@@ -34,7 +38,7 @@ const webhooks = [
 ];
 
 app.use('/', indexRouter);
-app.use('/api/deployments', deploymentsRouter(process.env.API_TOKEN, webhooks));
+app.use('/api/deployments', deploymentsRouter(auth.apiWriteTokenAuthenticate(), auth.apiReadTokenAuthenticate(), webhooks));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

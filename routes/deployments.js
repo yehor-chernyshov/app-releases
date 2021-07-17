@@ -4,17 +4,9 @@ const Deployment = require('../models/Deployment');
 
 
 // Create wrapper function that will adjust router based on provided configuration
-const wrapper = function(token, webhooks = []) {
+const wrapper = function(apiWriteTokenAuthenticate, apiReadTokenAuthenticate, webhooks = []) {
 
-    function apiTokenAuthenticate(req, res, next) {
-        const token = req.headers['authorization'];
-        if (token == null || token !== token) {
-            return res.sendStatus(401)
-        }
-        next()
-    }
-
-    router.get('/', async function(req, res, next) {
+    router.get('/', apiReadTokenAuthenticate, async function(req, res, next) {
         const deployments = await Deployment.aggregate([{
             $group: {
                 _id: "$projectName",
@@ -30,7 +22,7 @@ const wrapper = function(token, webhooks = []) {
         res.json(deployments);
     });
 
-    router.post('/', apiTokenAuthenticate, async function(req, res, next) {
+    router.post('/', apiWriteTokenAuthenticate, async function(req, res, next) {
         const newDeploment = new Deployment({
             projectName: req.body.projectName,
             tag: req.body.tag,
