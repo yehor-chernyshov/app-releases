@@ -1,10 +1,10 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const Deployment = require('../models/Deployment');
 
 
 // Create wrapper function that will adjust router based on provided configuration
-var wrapper = function(token, webhooks = []) {
+const wrapper = function(token, webhooks = []) {
 
     function apiTokenAuthenticate(req, res, next) {
         const token = req.headers['authorization'];

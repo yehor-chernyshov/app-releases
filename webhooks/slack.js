@@ -87,9 +87,6 @@ class SlackWebhook {
         if (this.url) {
             axios
                 .post(this.url, this._getMessage(deployment))
-                .then(res => {
-                    console.log(`Slack webhook response statusCode: ${res.status}`)
-                })
                 .catch(error => {
                     console.error(error)
                 })
