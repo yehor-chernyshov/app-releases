@@ -13,8 +13,8 @@ tags:
   description: "Everything about your Pets"
 
 schemes:
-- "https"
 - "http"
+- "https"
 paths:
   /deployments:
     get:
