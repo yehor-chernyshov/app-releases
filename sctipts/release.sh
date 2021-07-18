@@ -25,6 +25,15 @@ url=${url:-$URL}
 key=${key:-$KEY}
 project=${project:-$PROJECT}
 
+if [ -x "$(command -v git)" ]; then
+    COMMIT=$(git rev-parse HEAD)
+    BRANCH=$(git branch --show-current)
+    TAG=$(git describe --abbrev=0 --tags)
+    commit=${commit:-$COMMIT}
+    branch=${branch:-$BRANCH}
+    tag=${tag:-$TAG}
+fi
+
 if [ -z "$env" ]; then
     echo "ENV is not defined."
     exit 1;
