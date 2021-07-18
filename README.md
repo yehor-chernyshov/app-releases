@@ -1,5 +1,7 @@
 # Deployments
 
+[![CodeQL](https://github.com/yehor-chernyshov/deployments/workflows/CodeQL/badge.svg)](https://github.com/yehor-chernyshov/deployments/actions?query=workflow%3ACodeQL "Code quality workflow status")
+
 **Deployments** is an [ExpressJS](https://expressjs.com) + [MongoDB](https://www.mongodb.com) based app, contains api endpoints and view, which could be used for getting actual information about deployed versions of your applications.
 
 ### Overview 
@@ -18,7 +20,6 @@ Slack notification
 
 ## API Reference
  [Swagger](https://swagger.io) API reference could be checked in all not production environments under `/api-docs` url.
-
 
 ## How to start app?
 - copy `.env.dist` to `.env` file and updated values
