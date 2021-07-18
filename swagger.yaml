@@ -5,7 +5,7 @@ info:
   title: "Deployments"
   license:
     name: "MIT"
-    url: "https://github.com/yehor-chernyshov/app-releases/blob/main/LICENSE"
+    url: "https://github.com/yehor-chernyshov/deployments/blob/main/LICENSE"
 host: "localhost:3000"
 basePath: "/api"
 tags:
@@ -290,4 +290,4 @@ definitions:
         example: "Deployment validation failed: projectName: Path `...` is required."
 externalDocs:
   description: "Repository"
-  url: "https://github.com/yehor-chernyshov/app-releases"
+  url: "https://github.com/yehor-chernyshov/deployments"

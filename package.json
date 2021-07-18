@@ -1,5 +1,5 @@
 {
-    "name": "releases",
+    "name": "deployments",
     "version": "0.1.0",
     "scripts": {
         "start": "node main.js",
@@ -7,6 +7,9 @@
     },
     "engines": {
         "node": "14.x"
+    },
+    "author": {
+        "name": "Yehor Chernyshov"
     },
     "main": "main.js",
     "license": "MIT",
