@@ -27,9 +27,16 @@ const wrapper = function(auth, webhooks = []) {
             .save(function(error, document) {
                 if (error) {
                     res.status(400).json(error);
+                } else {
+                    webhooks.forEach(webhook => {
+                        try {
+                            webhook.send(document);
+                        } catch (e) {
+                            console.log(e)
+                        }
+                    });
+                    res.json(document);
                 }
-                webhooks.forEach(webhook => webhook.send(document));
-                res.json(document);
             })
     });
 
@@ -43,9 +50,16 @@ const wrapper = function(auth, webhooks = []) {
             new Deployment(deployment).save(function(error, document) {
                 if (error) {
                     res.status(400).json(error);
+                } else {
+                    webhooks.forEach(webhook => {
+                        try {
+                            webhook.send(document);
+                        } catch (e) {
+                            console.log(e)
+                        }
+                    });
+                    res.json(document);
                 }
-                webhooks.forEach(webhook => webhook.send(document));
-                res.json(document);
             })
         }
         res.status(400);

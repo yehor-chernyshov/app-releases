@@ -1,0 +1,293 @@
+swagger: "2.0"
+info:
+  description: "Deployments tool"
+  version: "0.1.0"
+  title: "Deployments"
+  license:
+    name: "MIT"
+    url: "https://github.com/yehor-chernyshov/app-releases/blob/main/LICENSE"
+host: "localhost:3000"
+basePath: "/api"
+tags:
+- name: "deployments"
+  description: "Everything about your Pets"
+
+schemes:
+- "https"
+- "http"
+paths:
+  /deployments:
+    get:
+      tags:
+      - "deployments"
+      summary: "Get last deployments"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/DeplyomentItem"
+      security:
+        - read_key: []
+    post:
+      tags:
+      - "deployments"
+      summary: "Add a new deployment"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Deplyoment object that needs to be saved"
+        required: true
+        schema:
+          $ref: "#/definitions/Deplyoment"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/DeplyomentResponse"
+        "400":
+          description: "Invalid input"
+          schema:
+            $ref: "#/definitions/InvalidInputResponse"
+      security:
+        - write_key: []
+  /deployments/heroku:
+    post:
+      tags:
+      - "deployments"
+      summary: "Add a new Heroku deployment"
+      description: "handles Heroku api:release wehbook"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "env"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "projectName"
+        in: "query"
+        type: "string"
+      - name: "branch"
+        in: "query"
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Heroku webhook that needs to be saved as Deployment"
+        required: true
+        schema:
+          $ref: "#/definitions/MinimalHerokuRelease"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/DeplyomentResponse"
+        "400":
+          description: "Invalid input"
+          schema:
+            $ref: "#/definitions/InvalidInputResponse"
+      security:
+        - write_key: []
+
+securityDefinitions:
+  write_key:
+    type: "apiKey"
+    name: "authorization"
+    in: "header"
+  read_key:
+    type: "apiKey"
+    name: "authorization"
+    in: "query"
+  
+    
+definitions:
+
+  MinimalHerokuReleaseDataSlug:
+    type: "object"
+    properties:
+      commit:
+        type: "string"
+        example: "e977068c574468665080440530a545ad35fe527c"
+
+  MinimalHerokuReleaseDataApp:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        example: "deployments"
+
+  MinimalHerokuReleaseData:
+    type: "object"
+    properties:
+      status:
+        type: "string"
+        example: "succeeded"
+      app:
+        $ref: "#/definitions/MinimalHerokuReleaseDataApp"
+      slug:
+        $ref: "#/definitions/MinimalHerokuReleaseDataSlug"
+
+  MinimalHerokuRelease:
+    type: "object"
+    properties:
+      data:
+        $ref: "#/definitions/MinimalHerokuReleaseData"
+      action:
+        type: "string"
+        example: "create"
+      resource:
+        type: "string"
+        example: "release"
+
+  Deplyoment:
+    type: "object"
+    required:
+    - "projectName"
+    - "env"
+    properties:
+      projectName:
+        type: "string"
+        example: "app"
+      env:
+        type: "string"
+        example: "staging"
+      branch:
+        type: "string"
+        example: "main"
+      tag:
+        type: "string"
+        example: null
+      commitHash:
+        type: "string"
+        example: null
+
+  DeplyomentResponse:
+    type: "object"
+    properties:
+      projectName:
+        type: "string"
+        example: "app"
+      env:
+        type: "string"
+        example: "staging"
+      branch:
+        type: "string"
+        example: "main"
+      tag:
+        type: "string"
+        example: null
+      commitHash:
+        type: "string"
+        example: null
+      _id:
+        type: "string"
+        example: "60f3fdf43a82148be037e9b0"
+      __v:
+        type: "integer"
+        example: 0
+
+  DeplyomentItem:
+    type: "object"
+    properties:
+      projectName:
+        type: "string"
+        example: "app"
+      env:
+        type: "string"
+        example: "staging"
+      branch:
+        type: "string"
+        example: "main"
+      tag:
+        type: "string"
+        example: null
+      commitHash:
+        type: "string"
+        example: null
+      _id:
+        type: "string"
+        example: "app"
+      date:
+        type: "string"
+        example: "2021-07-17T12:11:45.882Z"
+
+  ValidationErrorProperty:
+    type: "object"
+    properties:
+      message: 
+        type: "string"
+        example: "Validator failed for path `...` with value `null`"
+      type: 
+        type: "string"
+        example: "user defined"
+      path: 
+        type: "string"
+        example: "..."
+      value: 
+        type: "string"
+        example: null
+
+  ValidationError:
+    type: "object"
+    properties:
+      name: 
+        type: "string"
+        example: "ValidatorError"
+      message:
+        type: "string"
+        example: "Validator failed for path `...` with value `null`"
+      properties:
+        $ref: "#/definitions/ValidationErrorProperty"
+      kind: 
+        type: "string"
+        example: "user defined"
+      path: 
+        type: "string"
+        example: "..."
+      value: 
+        type: "string"
+        example: null
+
+  ValidationErrors:
+    type: "object"
+    properties:
+      projectName:
+        $ref: "#/definitions/ValidationError"
+      env:
+        $ref: "#/definitions/ValidationError"
+      branch:
+        $ref: "#/definitions/ValidationError"
+      tag:
+        $ref: "#/definitions/ValidationError"
+      commitHash:
+        $ref: "#/definitions/ValidationError"
+
+  InvalidInputResponse:
+    type: "object"
+    properties:
+      errors:
+        $ref: "#/definitions/ValidationErrors"
+      _message:
+        type: "string"
+        example: "Deployment validation failed"
+      name:
+        type: "string"
+        example: "ValidationError"
+      message:
+        type: "string"
+        example: "Deployment validation failed: projectName: Path `...` is required."
+externalDocs:
+  description: "Repository"
+  url: "https://github.com/yehor-chernyshov/app-releases"
