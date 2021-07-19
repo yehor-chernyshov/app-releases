@@ -15,3 +15,13 @@ tr:hover {
 .hidden {
     display: none;
 }
+
+.gihub-link {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.gihub-link>img {
+    height: 30px;
+}

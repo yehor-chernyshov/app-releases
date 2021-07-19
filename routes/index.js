@@ -10,7 +10,7 @@ router.get('/', async function(req, res, next) {
             write: process.env.DEMO_API_WRITE_TOKEN || null,
         }
     };
-    res.render('index', { title: 'Projects deployments', demo: demo });
+    res.render('index', { title: 'Project deployments | Free tool', demo: demo });
 });
 
 module.exports = router;
