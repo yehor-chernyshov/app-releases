@@ -8,7 +8,8 @@ router.get('/', async function(req, res, next) {
         tokens: {
             read: process.env.DEMO_API_READ_TOKEN || null,
             write: process.env.DEMO_API_WRITE_TOKEN || null,
-        }
+        },
+        api_docs_enabled: process.env.SHOW_API_DOCS || false
     };
     res.render('index', { title: 'Project deployments | Free tool', demo: demo });
 });

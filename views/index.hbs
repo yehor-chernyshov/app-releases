@@ -18,7 +18,9 @@
 {{#if demo.tokens.write}}
 <div class="row">
     <div class="column">
-        Demo API Token: {{demo.tokens.write}}
+        Demo API
+            {{#if demo.api_docs_enabled}} (<a href="/api-docs">docs here</a>){{/if}}
+         Token: {{demo.tokens.write}} 
     </div>
 </div>
 {{/if}}
