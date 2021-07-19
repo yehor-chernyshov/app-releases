@@ -4,19 +4,13 @@ const Deployment = require('../src/models/Deployment');
 
 /* GET home page. */
 router.get('/', async function(req, res, next) {
-    const deployments = await Deployment.aggregate([{
-        $group: {
-            _id: "$projectName",
-            projectName: { $last: "$projectName" },
-            env: { $last: "$env" },
-            commitHash: { $last: "$commitHash" },
-            tag: { $last: "$tag" },
-            branch: { $last: "$branch" },
-            date: { $last: "$date" },
+    const demo = {
+        tokens: {
+            read: process.env.DEMO_API_READ_TOKEN || null,
+            write: process.env.DEMO_API_WRITE_TOKEN || null,
         }
-    }]).sort({ projectName: 1 });
-
-    res.render('index', { title: 'Projects deployments', deployments: deployments });
+    };
+    res.render('index', { title: 'Projects deployments', demo: demo });
 });
 
 module.exports = router;

@@ -1,13 +1,27 @@
 <div id="login-block" class="row">
     <div class="column">
-        <div class="error" id="error"></div>
         <form name="login">
-            <input type="text" name="token" placeholder="token" required autofocus autocomplete="on" minlength="8">
+            <input type="text" name="token" placeholder="token" required autofocus autocomplete="on" minlength="5">
             <input type="submit" value="show">
         </form> 
+        <div class="error" id="error"></div>
     </div>
 </div>
 
+{{#if demo.tokens.read}}
+<div class="row">
+    <div class="column">
+        Demo Token: {{demo.tokens.read}}
+    </div>
+</div>
+{{/if}}
+{{#if demo.tokens.write}}
+<div class="row">
+    <div class="column">
+        Demo API Token: {{demo.tokens.write}}
+    </div>
+</div>
+{{/if}}
 
 <div class="row hidden">
     <div class="column">
