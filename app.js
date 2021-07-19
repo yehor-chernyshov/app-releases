@@ -7,8 +7,6 @@ const mongoose = require('mongoose');
 const webhooks = require('./src/webhooks/index')
 const auth = require('./src/auth')
 const helmet = require('helmet')
-const swaggerUi = require('swagger-ui-express');
-const YAML = require('yamljs');
 
 mongoose.connect(process.env.MONGO_DB_CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
 
@@ -35,8 +33,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/api/deployments', deploymentsRouter(auth, webhooks));
-if (process.env.NODE_ENV !== 'production') {
-    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(YAML.load('./swagger.yaml')));
+
+if (process.env.SHOW_API_DOCS == 1) {
+    const swaggerUi = require('swagger-ui-express');
+    const YAML = require('yamljs');
+    var pjson = require('./package.json');
+    const swaggerDocument = YAML.load('./swagger.yaml')
+    swaggerDocument.info.version = pjson.version
+    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 }
 
 // catch 404 and forward to error handler

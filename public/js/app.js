@@ -26,8 +26,10 @@ const columns = [{
 ];
 
 function showContent(data) {
-    document.getElementById('login-block')
-        .remove();
+    document.querySelectorAll('.first-page')
+        .forEach(item => {
+            item.remove();
+        });
     document.querySelectorAll('.row')
         .forEach(item => item.classList.remove('hidden'));
 

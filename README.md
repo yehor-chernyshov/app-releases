@@ -19,7 +19,7 @@ Slack notification
 ![Slack notification](/screenshots/slack.png)
 
 ## API Reference
- [Swagger](https://swagger.io) API reference could be checked in all environments (except production) under `/api-docs` url.
+ [Swagger](https://swagger.io) API reference could be checked (if `SHOW_API_DOCS` env var set to `1`) under `/api-docs` url.
 ![Swagger](/screenshots/swagger.png)
 
 ## How to start app?
